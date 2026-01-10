@@ -1,28 +1,12 @@
-const express = require('express');
+import express from 'express';
+import Project from '../models/Project.js';
+import { createProject, getProjects, getProjectById, updateProject, deleteProject } from '../controllers/project.controller.js';
+import { protect } from '../middleware/auth.middleware.js';
 const router = express.Router();
-const Project = require('../models/Project');
 
-router.get('/',async (req , res) => {
-    try {
-        const projects = await Project.find();
-        res.json(projects);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-router.post('/', async (req, res) => {
-    const project = new Project({
-        name: req.body.name,
-        description: req.body.description,
-        status: req.body.status
-    });
-    try {
-        const savedProject = await project.save();
-        res.status(201).json(savedProject);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    } 
-});
-
-module.exports = router;
+router.post('/', protect, createProject);
+router.get('/', protect, getProjects);
+router.get('/:id', protect, getProjectById);
+router.put('/:id', protect, updateProject);
+router.delete('/:id', protect, deleteProject);
+export default router;

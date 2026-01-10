@@ -1,31 +1,13 @@
-const express = require('express');
+import express from 'express';
+import Task from '../models/Task.js';
+import { createTask, getTasks, getTaskById, updateTask, deleteTask } from '../controllers/task.controller.js';
+import {protect} from '../middleware/auth.middleware.js';
+
 const router = express.Router();
-const Task = require('../models/Task');
+router.post('/', protect, createTask);
+router.get('/', protect, getTasks);
+router.get('/:id', protect, getTaskById);
+router.put('/:id', protect, updateTask);
+router.delete('/:id', protect, deleteTask);
 
-router.get('/',async (req , res) => {
-    try {
-        const tasks = await Task.find();
-        res.json(tasks);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-router.post('/', async (req, res) => {
-    const task = new Task({
-        title: req.body.title,
-        description: req.body.description,
-        projectId: req.body.projectId,
-        priority: req.body.priority,
-        dueDate: req.body.dueDate,
-        status: req.body.status
-    });
-    try {
-        const savedTask = await task.save();
-        res.status(201).json(savedTask);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    } 
-});
-
-module.exports = router;
+export default router;

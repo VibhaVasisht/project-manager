@@ -8,6 +8,7 @@ import projectRoutes from './routes/projectRoutes.js';
 import dotenv from 'dotenv';
 dotenv.config();
 import authRoutes from './routes/auth.routes.js';
+import {protect} from './middleware/auth.middleware.js';
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -15,9 +16,12 @@ const PORT = process.env.PORT || 5000;
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(cors());
+
+//Routes
 app.use('/api/tasks', taskRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/auth', authRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, {
@@ -35,4 +39,5 @@ app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-app.use('/api/auth', authRoutes);
+
+
