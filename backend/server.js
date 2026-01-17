@@ -18,10 +18,10 @@ app.use(bodyParser.json());
 app.use(cors());
 
 //Routes
-app.use('/api/tasks', taskRoutes);
-app.use('/api/users', userRoutes);
-app.use('/api/projects', projectRoutes);
-app.use('/api/auth', authRoutes);
+app.use('/tasks', taskRoutes);
+app.use('/users', userRoutes);
+app.use('/projects', projectRoutes);
+app.use('/auth', authRoutes);
 
 // MongoDB connection
 mongoose.connect(process.env.MONGODB_URI, {
