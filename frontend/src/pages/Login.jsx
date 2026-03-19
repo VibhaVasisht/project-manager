@@ -1,21 +1,24 @@
 import { useState } from 'react';
 import { loginUser } from '../api/auth';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 export default function Login() {
     const [form, setForm] = useState({
         email: '',
         password: '',
     });
+    const navigate = useNavigate();
+    const { refreshUser } = useContext(AuthContext);
 
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        try{
+        try {
             const data = await loginUser(form);
             localStorage.setItem('token', data.token);
-            alert('Login successful!');
-            const navigate = useNavigate();
+            await refreshUser();
             navigate('/dashboard');
         } catch (error) {
             alert('Login failed. Please check your credentials and try again.');
@@ -23,16 +26,34 @@ export default function Login() {
     };
 
     return(
-        <>
-        <form onSubmit={submitHandler}>
-            <input placeholder='Email' onChange={(e) => setForm({ ...form, email: e.target.value})} />
-            <input type='password' placeholder='Password' onChange={(e) => setForm({ ...form, password: e.target.value})} />
-            <button type='submit'>Login</button>
-        </form>
-        
-         <p>
-        Don't have an account? <a href="/register">Register here</a>.
-        </p>
-        </>
+        <div className="app-container">
+            <div className="form-container">
+                <h2>Login</h2>
+                <form onSubmit={submitHandler}>
+                    <div className="form-group">
+                        <input 
+                            type="email"
+                            placeholder='Email' 
+                            value={form.email}
+                            onChange={(e) => setForm({ ...form, email: e.target.value})} 
+                            required
+                        />
+                    </div>
+                    <div className="form-group">
+                        <input 
+                            type='password' 
+                            placeholder='Password' 
+                            value={form.password}
+                            onChange={(e) => setForm({ ...form, password: e.target.value})} 
+                            required
+                        />
+                    </div>
+                    <button type='submit' className="btn">Login</button>
+                </form>
+                <div className="link">
+                    <p>Don't have an account? <a href="/register">Register here</a>.</p>
+                </div>
+            </div>
+        </div>
     );
 }
