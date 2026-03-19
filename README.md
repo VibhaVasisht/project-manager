@@ -6,6 +6,11 @@ A full-stack web application for managing projects and tasks, built with a React
 * Task assignment and tracking
 * Dashboard for overview
 * Responsive UI
+## Preview ##
+<img src="screenshots/login_projectmanager.png" alt="Login Page" width="800">
+<img src="screenshots/register_projectmanager.png" alt="Register Page" width="800">
+<img src="screenshots/dashboard_projectmanager.png" alt="Dashboard" width="800">
+
 ## Tech Stack ##
 **Frontend**
 * React 19
