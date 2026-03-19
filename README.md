@@ -17,6 +17,7 @@ A full-stack web application for managing projects and tasks, built with a React
 * Vite (for development and build)
 * React Router DOM (for routing)
 * ESLint (for code linting)
+  
 **Backend**
 * Node.js with Express
 * MongoDB with Mongoose (for database)
